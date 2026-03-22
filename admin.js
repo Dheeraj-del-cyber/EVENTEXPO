@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchServices() {
     document.getElementById('adminLoader').style.display = 'flex';
-    document.getElementById('servicesTable').style.display = 'none';
+    document.getElementById('servicesList').innerHTML = '';
     
     try {
         const response = await fetch(API_URL);
@@ -24,38 +24,45 @@ async function fetchServices() {
         if (localData) {
             adminServices = JSON.parse(localData);
         } else {
-            // Setup some initial data if completely empty
             adminServices = [];
         }
     }
     
     document.getElementById('adminLoader').style.display = 'none';
-    document.getElementById('servicesTable').style.display = 'table';
-    renderTable();
+    document.getElementById('serviceCount').innerText = `${adminServices.length} Providers Found`;
+    renderList();
 }
 
-function renderTable() {
-    const tbody = document.getElementById('tableBody');
-    tbody.innerHTML = '';
+function renderList() {
+    const listContainer = document.getElementById('servicesList');
+    listContainer.innerHTML = '';
 
     if(adminServices.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">No services found. Add one above.</td></tr>';
+        listContainer.innerHTML = '<div class="empty-state">No service providers found. Begin by adding one today!</div>';
         return;
     }
 
     adminServices.forEach(service => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><strong>${service.name}</strong></td>
-            <td><span class="category-badge" style="position:relative;top:0;left:0">${service.category}</span></td>
-            <td>${service.location}</td>
-            <td>${service.priceRange}</td>
-            <td>
-                <button class="btn-sm btn-edit" onclick="editService('${service.id || service._id}')"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn-sm btn-delete" onclick="deleteService('${service.id || service._id}')"><i class="fa-solid fa-trash"></i></button>
-            </td>
+        const card = document.createElement('div');
+        card.className = 'admin-service-card';
+        card.innerHTML = `
+            <div class="card-left">
+                <img src="${service.image || 'assets/placeholder-person.jpg'}" alt="Provider">
+            </div>
+            <div class="card-mid">
+                <h3>${service.name}</h3>
+                <div class="card-meta-admin">
+                    <span><i class="fa-solid fa-tag"></i> ${service.category}</span>
+                    <span><i class="fa-solid fa-location-dot"></i> ${service.location}</span>
+                    <span><i class="fa-solid fa-indian-rupee-sign"></i> ${service.priceRange}</span>
+                </div>
+            </div>
+            <div class="card-right">
+                <button class="btn-admin-sm edit" onclick="editService('${service.id || service._id}')"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                <button class="btn-admin-sm delete" onclick="deleteService('${service.id || service._id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+            </div>
         `;
-        tbody.appendChild(tr);
+        listContainer.appendChild(card);
     });
 }
 
@@ -92,6 +99,7 @@ function setupAdminListeners() {
             priceRange: document.getElementById('priceRange').value,
             rating: parseFloat(document.getElementById('rating').value),
             location: document.getElementById('location').value,
+            moreInfo: document.getElementById('moreInfo').value, // New field Added
             image: document.getElementById('image').value
         };
 
@@ -127,6 +135,7 @@ window.editService = function(id) {
     document.getElementById('priceRange').value = service.priceRange;
     document.getElementById('rating').value = service.rating;
     document.getElementById('location').value = service.location;
+    document.getElementById('moreInfo').value = service.moreInfo || '';
     document.getElementById('image').value = service.image;
 
     // Show preview on edit
@@ -153,7 +162,8 @@ window.deleteService = async function(id) {
         localStorage.setItem('eventExpoServices', JSON.stringify(adminServices));
     }
     
-    renderTable();
+    document.getElementById('serviceCount').innerText = `${adminServices.length} Providers Found`;
+    renderList();
 }
 
 async function addServiceAPI(serviceData) {
@@ -173,7 +183,8 @@ async function addServiceAPI(serviceData) {
         localStorage.setItem('eventExpoServices', JSON.stringify(adminServices));
     }
     
-    renderTable();
+    document.getElementById('serviceCount').innerText = `${adminServices.length} Providers Found`;
+    renderList();
     resetForm();
     alert('Service successfully added!');
 }
@@ -199,7 +210,7 @@ async function updateServiceAPI(id, serviceData) {
         }
     }
     
-    renderTable();
+    renderList();
     resetForm();
     alert('Service successfully updated!');
 }

@@ -443,7 +443,7 @@ function openModal(id) {
                 <span><i class="fa-solid fa-star"></i> ${service.rating} / 5.0</span>
                 <span><i class="fa-solid fa-location-dot"></i> ${service.location}</span>
             </div>
-            <p class="modal-desc">${service.description || 'No detailed description available.'}</p>
+            <p class="modal-desc">${service.moreInfo || service.description || 'No detailed description available.'}</p>
             <div class="modal-price">${service.priceRange}</div>
             <button class="primary-btn" style="width:100%" onclick="bookService('${id}')">Book Now via WhatsApp</button>
         </div>
