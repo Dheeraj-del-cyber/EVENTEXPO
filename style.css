@@ -705,10 +705,13 @@ img {
     align-items: center;
     margin-bottom: 30px;
     gap: 15px;
+    position: relative;
+    z-index: 10; /* Create a stacking context for the dropdown */
 }
 @media(min-width: 768px) {
     .section-header {
         flex-direction: row;
+        z-index: 100; /* Higher on desktop too */
     }
     .section-header .section-title {
         margin-bottom: 0;
@@ -719,6 +722,8 @@ img {
     display: flex;
     align-items: center;
     gap: 15px;
+    position: relative;
+    z-index: 50; /* Above regular content but below triggered menu items if necessary */
 }
 
 @media(max-width: 768px) {
@@ -746,12 +751,13 @@ img {
     position: relative;
     width: 220px;
     user-select: none;
-    z-index: 100;
+    z-index: 1200; /* Higher than navbar but lower than modal */
 }
 
 @media(max-width: 768px) {
     .custom-select {
         width: 100%;
+        z-index: 1500; /* Even higher for mobile to clear all other UI */
     }
 }
 
@@ -790,18 +796,19 @@ img {
 
 .options-container {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 5px);
     left: 0;
     width: 100%;
     background: #121212;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     overflow: hidden;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-5px);
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    box-shadow: 0 15px 50px rgba(0,0,0,0.8);
+    z-index: 1501; /* Ensure dropdown menu is on very top */
 }
 
 .custom-select.active .options-container {

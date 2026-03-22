@@ -62,6 +62,26 @@ function renderTable() {
 function setupAdminListeners() {
     const form = document.getElementById('adminForm');
     const cancelBtn = document.getElementById('cancelBtn');
+    
+    // Image Upload Handling
+    const imageFile = document.getElementById('imageFile');
+    const imageHidden = document.getElementById('image');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+
+    imageFile.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64 = event.target.result;
+                imageHidden.value = base64;
+                imagePreview.src = base64;
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -74,6 +94,11 @@ function setupAdminListeners() {
             location: document.getElementById('location').value,
             image: document.getElementById('image').value
         };
+
+        if (!serviceData.image) {
+            alert('Please upload a photo for the service provider.');
+            return;
+        }
 
         if (isEditing && currentEditId) {
             await updateServiceAPI(currentEditId, serviceData);
@@ -103,6 +128,12 @@ window.editService = function(id) {
     document.getElementById('rating').value = service.rating;
     document.getElementById('location').value = service.location;
     document.getElementById('image').value = service.image;
+
+    // Show preview on edit
+    if (service.image) {
+        document.getElementById('imagePreview').src = service.image;
+        document.getElementById('imagePreviewContainer').style.display = 'block';
+    }
     
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -180,4 +211,9 @@ function resetForm() {
     document.getElementById('formTitle').innerText = 'Add New Service';
     document.getElementById('submitBtn').innerText = 'Add Service Provider';
     document.getElementById('cancelBtn').style.display = 'none';
+    
+    // Reset image preview
+    document.getElementById('image').value = '';
+    document.getElementById('imagePreview').src = '';
+    document.getElementById('imagePreviewContainer').style.display = 'none';
 }
