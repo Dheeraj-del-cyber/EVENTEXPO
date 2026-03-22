@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventExpo | Admin Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background-color: var(--bg-light); padding-top: 80px; }
+        .admin-header {
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        .admin-header h1 { color: var(--text-primary); margin: 0; }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        @media(min-width: 992px) {
+            .admin-grid { grid-template-columns: 1fr 2fr; }
+        }
+        .form-section { background: var(--bg-card); padding: 25px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+        .table-section { background: var(--bg-card); padding: 25px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); text-align: left; }
+        th { background-color: var(--bg-light); color: var(--text-secondary); font-weight: 600; }
+        .btn-sm { padding: 6px 12px; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; color: white; margin-right: 5px; }
+        .btn-edit { background-color: #3b82f6; }
+        .btn-delete { background-color: #ef4444; }
+        #serviceId { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar scrolled">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="Event Expo" class="nav-logo-img">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Back to Website</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-header">
+        <div class="container">
+            <h1>Admin Dashboard</h1>
+            <p>Manage your event service providers</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="admin-grid">
+            <!-- Add/Edit Form -->
+            <div class="form-section">
+                <h2 id="formTitle">Add New Service</h2>
+                <form id="adminForm">
+                    <input type="text" id="serviceId">
+                    <div class="form-group">
+                        <label for="name">Service / Provider Name</label>
+                        <input type="text" id="name" class="form-control" required placeholder="e.g. John Doe Catering">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" class="form-control" required>
+                            <option value="Celebrities">Celebrities</option>
+                            <option value="Sound & Lighting">Sound & Lighting</option>
+                            <option value="Catering">Catering</option>
+                            <option value="Event Hosts">Event Hosts</option>
+                            <option value="Decorations">Decorations</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="priceRange">Price Range</label>
+                        <input type="text" id="priceRange" class="form-control" required placeholder="e.g. $1000 - $5000">
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating (0-5)</label>
+                        <input type="number" id="rating" class="form-control" step="0.1" min="0" max="5" required placeholder="e.g. 4.8">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" class="form-control" required placeholder="e.g. New York, NY">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image URL</label>
+                        <input type="url" id="image" class="form-control" required placeholder="https://example.com/image.jpg">
+                    </div>
+                    <button type="submit" class="primary-btn" style="width: 100%" id="submitBtn">Add Service Provider</button>
+                    <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 10px; display: none;" id="cancelBtn">Cancel Edit</button>
+                </form>
+            </div>
+
+            <!-- Services List -->
+            <div class="table-section">
+                <h2>Manage Providers</h2>
+                <div class="loader-container" id="adminLoader">
+                    <div class="loader"></div>
+                </div>
+                <table id="servicesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Location</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Logic -->
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventExpo | Book Premium Event Services</title>
+    <meta name="description" content="Find everything you need for your event in one place. Book Celebrities, Sound & Lighting, Catering, Event Hosts, and Decorations.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="Event Expo" class="nav-logo-img">
+            </a>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#services">Services</a>
+                <a href="#about">About</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay">
+        <a href="#home" class="mobile-link">Home</a>
+        <a href="#services" class="mobile-link">Services</a>
+        <a href="#about" class="mobile-link">About</a>
+        <i class="fa-solid fa-xmark close-menu"></i>
+    </div>
+
+    <main id="mainContainer">
+        <!-- Home View -->
+        <div id="homeView">
+            <!-- Hero Section -->
+            <section class="hero" id="home">
+                <canvas id="hero-canvas"></canvas>
+                <div class="hero-content reveal">
+                    <h1><img src="assets/logo.png" alt="Event Expo" class="hero-logo-img"></h1>
+                    <p class="tagline">Everything you need for your event in one place.</p>
+                </div>
+            </section>
+
+            <!-- Category Section -->
+            <section class="categories-section padding-section reveal">
+                <div class="container">
+                    <h2 class="section-title">Select a Category</h2>
+                    <div class="category-grid large-grid" id="categoryGrid">
+                        <button class="category-card large-card" data-filter="DJ">
+                            <div class="icon-wrapper"><i class="fa-solid fa-compact-disc"></i></div>
+                            <h3>DJ</h3>
+                        </button>
+                        <button class="category-card large-card" data-filter="Singers">
+                            <div class="icon-wrapper"><i class="fa-solid fa-microphone-lines"></i></div>
+                            <h3>Singers</h3>
+                        </button>
+                        <button class="category-card large-card" data-filter="Sound & Lighting">
+                            <div class="icon-wrapper"><i class="fa-solid fa-music"></i></div>
+                            <h3>Sound & Lighting</h3>
+                        </button>
+                        <button class="category-card large-card" data-filter="Catering">
+                            <div class="icon-wrapper"><i class="fa-solid fa-utensils"></i></div>
+                            <h3>Catering</h3>
+                        </button>
+                        <button class="category-card large-card" data-filter="Celebrities">
+                            <div class="icon-wrapper"><i class="fa-solid fa-star"></i></div>
+                            <h3>Celebrities</h3>
+                        </button>
+                        <button class="category-card large-card" data-filter="Event Hosts">
+                            <div class="icon-wrapper"><i class="fa-solid fa-user-tie"></i></div>
+                            <h3>Event Hosts</h3>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Services View -->
+        <div id="servicesView" style="display: none;">
+            <!-- Services Listing Section -->
+            <section class="services-section padding-section" id="services">
+                <div class="container">
+                    <button id="backToHomeBtn" class="btn btn-outline" style="margin-bottom: 30px;"><i class="fa-solid fa-arrow-left"></i> Back to Categories</button>
+                    <div class="section-header reveal">
+                        <h2 class="section-title" id="servicesTitle">Services</h2>
+                        <div class="sorting">
+                            <label for="sortPrice">Sort by Price:</label>
+                            <select id="sortPrice">
+                                <option value="none">Default</option>
+                                <option value="low">Low to High</option>
+                                <option value="high">High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Loader -->
+                    <div class="loader-container" id="loader">
+                        <div class="loader"></div>
+                    </div>
+
+                    <!-- Service Cards Grid -->
+                    <div class="services-grid" id="servicesGrid">
+                        <!-- Data will be populated here via JavaScript -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <i class="fa-solid fa-box-open"></i>
+                        <h3>No services found</h3>
+                        <p>No providers available for this category yet.</p>
+                    </div>
+
+                    <!-- Load More Button -->
+                    <div class="load-more-container reveal">
+                        <button id="loadMoreBtn" class="primary-btn">Load More <i class="fa-solid fa-arrow-down"></i></button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="assets/logo.png" alt="Event Expo" class="nav-logo-img">
+                    </a>
+                    <p>Your premium event service marketplace connecting you with top-tier professionals.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><i class="fa-solid fa-envelope"></i> support@eventexpo.com</p>
+                    <p><i class="fa-solid fa-phone"></i> +1 (800) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EventExpo. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Service Details Modal -->
+    <div class="modal-overlay" id="serviceModal">
+        <div class="modal-content">
+            <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content populated via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
