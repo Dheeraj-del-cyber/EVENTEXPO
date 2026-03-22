@@ -283,6 +283,44 @@ function setupEventListeners() {
             if (e.target === modalOverlay) closeModal();
         });
     }
+
+    // Custom Sorting Dropdown
+    const customSelect = document.getElementById('sortCustomSelect');
+    const selectTrigger = customSelect?.querySelector('.select-trigger');
+    const selectLabel = document.getElementById('selectLabel');
+    const options = customSelect?.querySelectorAll('.option');
+
+    if (customSelect && selectTrigger) {
+        selectTrigger.addEventListener('click', () => {
+            customSelect.classList.toggle('active');
+        });
+
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = opt.dataset.value;
+                const text = opt.textContent;
+                
+                // Update state
+                state.sortBy = val;
+                
+                // Update UI
+                selectLabel.textContent = text;
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                customSelect.classList.remove('active');
+                
+                // Trigger refresh
+                applyFilters();
+            });
+        });
+
+        // Close on outside click
+        document.addEventListener('click', (e) => {
+            if (!customSelect.contains(e.target)) {
+                customSelect.classList.remove('active');
+            }
+        });
+    }
 }
 
 // Data Processing
@@ -302,16 +340,26 @@ function applyFilters() {
         );
     }
 
-    // Sorting logic (Parsing price ranges roughly)
+    // Sorting logic 
     if (state.sortBy !== 'none') {
         filtered.sort((a, b) => {
+            if (state.sortBy === 'rating') {
+                return (b.rating || 0) - (a.rating || 0); // High to Low
+            }
+            if (state.sortBy === 'location') {
+                return a.location.localeCompare(b.location); // A-Z
+            }
+            
             const getMinPrice = (priceStr) => {
                 const num = parseInt(priceStr.replace(/[^0-9]/g, ''));
                 return isNaN(num) ? 0 : num;
             };
             const valA = getMinPrice(a.priceRange);
             const valB = getMinPrice(b.priceRange);
-            return state.sortBy === 'low' ? valA - valB : valB - valA;
+            
+            if (state.sortBy === 'price-low') return valA - valB;
+            if (state.sortBy === 'price-high') return valB - valA;
+            return 0;
         });
     }
 

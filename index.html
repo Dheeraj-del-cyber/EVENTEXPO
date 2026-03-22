@@ -146,12 +146,20 @@
                     <div class="section-header reveal">
                         <h2 class="section-title" id="servicesTitle">Services</h2>
                         <div class="sorting">
-                            <label for="sortPrice">Sort by Price:</label>
-                            <select id="sortPrice">
-                                <option value="none">Default</option>
-                                <option value="low">Low to High</option>
-                                <option value="high">High to Low</option>
-                            </select>
+                            <label><i class="fa-solid fa-arrow-down-wide-short"></i> Sort by:</label>
+                            <div class="custom-select" id="sortCustomSelect">
+                                <div class="select-trigger">
+                                    <span id="selectLabel">Default</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <div class="options-container">
+                                    <div class="option selected" data-value="none">Default</div>
+                                    <div class="option" data-value="rating">Top Rated</div>
+                                    <div class="option" data-value="price-low">Price: Low to High</div>
+                                    <div class="option" data-value="price-high">Price: High to Low</div>
+                                    <div class="option" data-value="location">Location (A-Z)</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
