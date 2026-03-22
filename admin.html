@@ -81,7 +81,7 @@
                     </div>
                     <div class="form-group">
                         <label for="priceRange">Price Range</label>
-                        <input type="text" id="priceRange" class="form-control" required placeholder="e.g. $1000 - $5000">
+                        <input type="text" id="priceRange" class="form-control" required placeholder="e.g. ₹10,000 - ₹50,000">
                     </div>
                     <div class="form-group">
                         <label for="rating">Rating (0-5)</label>
@@ -90,6 +90,10 @@
                     <div class="form-group">
                         <label for="location">Location</label>
                         <input type="text" id="location" class="form-control" required placeholder="e.g. New York, NY">
+                    </div>
+                    <div class="form-group">
+                        <label for="moreInfo">More Information (Know More Details)</label>
+                        <textarea id="moreInfo" class="form-control" rows="4" placeholder="Add detailed information about the provider, specialties, etc."></textarea>
                     </div>
                     <div class="form-group">
                         <label for="image">Service Provider Photo</label>
@@ -107,27 +111,35 @@
 
             <!-- Services List -->
             <div class="table-section">
-                <h2>Manage Providers</h2>
+                <div class="section-header-admin">
+                    <h2>Manage Providers</h2>
+                    <span id="serviceCount" class="count-badge">0 Providers</span>
+                </div>
                 <div class="loader-container" id="adminLoader">
                     <div class="loader"></div>
                 </div>
-                <table id="servicesTable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Location</th>
-                            <th>Price</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
+                <div id="servicesList" class="admin-services-list">
+                    <!-- Populated by JS -->
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Admin Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <div class="divider"></div>
+                <p>&copy; 2026 EventExpo. All rights reserved.</p>
+                <p class="developer-credit">
+                    Developed by 
+                    <a href="https://www.instagram.com/_dheeraj_koila_?igsh=MTZxN3hvcjhiZ3JzZw==" target="_blank" class="instagram-link">
+                        <i class="fa-brands fa-instagram"></i> <strong>DHEERAJ KOILA</strong>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Admin Logic -->
     <script src="admin.js"></script>
