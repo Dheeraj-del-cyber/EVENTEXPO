@@ -64,7 +64,7 @@ const MOCK_DATA = [
 
 // Configuration
 const API_URL = 'http://localhost:5000/api/services';
-const ADMIN_PHONE = '+1234567890'; // Use actual phone number for WhatsApp
+const ADMIN_PHONE = '918147131299'; // New WhatsApp number from user
 
 // State Manager
 const state = {
@@ -111,28 +111,120 @@ async function initApp() {
 
 // Event Listeners
 function setupEventListeners() {
-    // Mobile Menu
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const closeMenuBtn = document.querySelector('.close-menu');
-    const mobileMenu = document.querySelector('.mobile-menu-overlay');
+    // Modern Mobile Menu Logic
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileClose = document.getElementById('mobileClose');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const body = document.body;
 
-    if (mobileMenuBtn && closeMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
-        closeMenuBtn.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    const toggleMenu = (show) => {
+        if (show) {
+            menuToggle.classList.add('menu-open');
+            mobileMenu.classList.add('open');
+            body.style.overflow = 'hidden';
+        } else {
+            menuToggle.classList.remove('menu-open');
+            mobileMenu.classList.remove('open');
+            body.style.overflow = '';
+        }
+    };
 
-        // Close menu on link click
+    if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', () => toggleMenu(!mobileMenu.classList.contains('open')));
+        if (mobileClose) mobileClose.addEventListener('click', () => toggleMenu(false));
+
+        // Close menu on link click & switch view if needed
         document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                toggleMenu(false);
+                
+                // If it's an internal link, ensure we are on Home view
+                if (href.startsWith('#')) {
+                    switchView('home');
+                }
+            });
         });
     }
 
-    // Navbar Scroll Effect
+    // View Switching Logic
+    window.switchView = function(viewId) {
+        const homeView = document.getElementById('homeView');
+        const servicesView = document.getElementById('servicesView');
+        
+        if (viewId === 'home') {
+            homeView.style.display = 'block';
+            servicesView.style.display = 'none';
+        } else {
+            homeView.style.display = 'none';
+            servicesView.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        setupRevealAnimations();
+    };
+
+    // Navbar Scroll & Active Section Tracking
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    // Home links in navbar should ensure home view is active
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            const href = item.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                switchView('home');
+            }
+        });
+    });
+
+    // Back to Home Button
+    const backBtn = document.getElementById('backToHomeBtn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => switchView('home'));
+    }
+
     window.addEventListener('scroll', () => {
         const nav = document.getElementById('navbar');
+        const scrollCoords = window.scrollY;
+
+        // Navbar floating pill effect
         if (nav) {
-            if (window.scrollY > 50) nav.classList.add('scrolled');
+            if (scrollCoords > 50) nav.classList.add('scrolled');
             else nav.classList.remove('scrolled');
         }
+
+        // Active Link Highlighting
+        let current = "";
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollCoords >= (sectionTop - 150)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href').includes(current) && current !== "") {
+                item.classList.add('active');
+            }
+        });
+    });
+
+    // Magnetic Effect for Nav Links
+    const magneticLinks = document.querySelectorAll('.nav-item, .mobile-link');
+    magneticLinks.forEach(link => {
+        link.addEventListener('mousemove', (e) => {
+            const rect = link.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            link.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        link.addEventListener('mouseleave', () => {
+            link.style.transform = `translate(0px, 0px)`;
+        });
     });
 
     // Category Filtering
@@ -144,6 +236,7 @@ function setupEventListeners() {
             state.currentFilter = e.currentTarget.dataset.filter;
             state.page = 1;
             applyFilters();
+            switchView('services');
         });
     });
 

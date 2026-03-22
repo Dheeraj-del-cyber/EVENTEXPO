@@ -21,22 +21,39 @@
                 <img src="assets/logo.png" alt="Event Expo" class="nav-logo-img">
             </a>
             <div class="nav-links">
-                <a href="#home" class="active">Home</a>
-                <a href="#services">Services</a>
-                <a href="#about">About</a>
+                <a href="#home" class="nav-item active" data-text="Home">Home</a>
+                <a href="#categories" class="nav-item" data-text="Services">Services</a>
+                <a href="#about" class="nav-item" data-text="About">About</a>
+                <a href="https://wa.me/918147131299" target="_blank" class="nav-item wa-btn-nav"><i class="fa-brands fa-whatsapp"></i> Chat</a>
             </div>
-            <div class="mobile-menu-btn">
-                <i class="fa-solid fa-bars"></i>
+            <div class="mobile-menu-btn" id="menuToggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu-overlay">
-        <a href="#home" class="mobile-link">Home</a>
-        <a href="#services" class="mobile-link">Services</a>
-        <a href="#about" class="mobile-link">About</a>
-        <i class="fa-solid fa-xmark close-menu"></i>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div class="menu-bg-glow"></div>
+        <div class="mobile-close-btn" id="mobileClose"><i class="fa-solid fa-xmark"></i></div>
+        <div class="mobile-menu-content">
+            <nav class="mobile-nav">
+                <a href="#home" class="mobile-link" style="--i:1">Home</a>
+                <a href="#categories" class="mobile-link" style="--i:2">Services</a>
+                <a href="#about" class="mobile-link" style="--i:3">About</a>
+            </nav>
+            <div class="mobile-menu-footer" style="--i:4">
+                <p>Connect with us</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/eventexpo.3?igsh=OWd5czZ4bDQyNnVp" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/918147131299" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <main id="mainContainer">
@@ -52,7 +69,7 @@
             </section>
 
             <!-- Category Section -->
-            <section class="categories-section padding-section reveal">
+            <section class="categories-section padding-section reveal" id="categories">
                 <div class="container">
                     <h2 class="section-title">Select a Category</h2>
                     <div class="category-grid large-grid" id="categoryGrid">
@@ -80,6 +97,41 @@
                             <div class="icon-wrapper"><i class="fa-solid fa-user-tie"></i></div>
                             <h3>Event Hosts</h3>
                         </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about-section padding-section reveal" id="about">
+                <div class="container">
+                    <div class="about-modern">
+                        <div class="about-header-group">
+                            <span class="about-pretitle">The Platform</span>
+                            <h2 class="section-title">Elevating Every Event</h2>
+                        </div>
+                        <div class="about-features-compact">
+                            <div class="feature-item">
+                                <div class="item-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div class="item-text">
+                                    <h4>Verified Pros</h4>
+                                    <p>Strictly vetted talent.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="item-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                                <div class="item-text">
+                                    <h4>Fast Booking</h4>
+                                    <p>Direct WhatsApp chat.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="item-icon"><i class="fa-solid fa-star"></i></div>
+                                <div class="item-text">
+                                    <h4>Top Quality</h4>
+                                    <p>Handpicked for you.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -148,8 +200,8 @@
                 </div>
                 <div class="footer-contact">
                     <h4>Contact Us</h4>
-                    <p><i class="fa-solid fa-envelope"></i> support@eventexpo.com</p>
-                    <p><i class="fa-solid fa-phone"></i> +1 (800) 123-4567</p>
+                    <p><i class="fa-solid fa-envelope"></i> info@eventexpo.in</p>
+                    <p><i class="fa-solid fa-phone"></i> +91 81471 31299</p>
                 </div>
             </div>
             <div class="footer-bottom">
