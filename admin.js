@@ -1,5 +1,5 @@
 // Admin Logic for EventExpo
-const API_URL = 'http://localhost:5000/api/services';
+const API_URL = 'https://eventexpo.onrender.com/api/services';
 let adminServices = [];
 let isEditing = false;
 let currentEditId = null;

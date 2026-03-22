@@ -63,7 +63,7 @@ const MOCK_DATA = [
 ];
 
 // Configuration
-const API_URL = 'http://localhost:5000/api/services';
+const API_URL = 'https://eventexpo.onrender.com/api/services';
 const ADMIN_PHONE = '918147131299'; // New WhatsApp number from user
 
 // State Manager
@@ -168,10 +168,12 @@ function setupEventListeners() {
     const navItems = document.querySelectorAll('.nav-item');
 
     // Home links in navbar should ensure home view is active
-    navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            const href = item.getAttribute('href');
-            if (href && href.startsWith('#')) {
+    // Global Section link logic (Navbar + Footer Quick Links)
+    const allInternalLinks = document.querySelectorAll('a[href^="#"]:not(#backToHomeBtn)');
+    allInternalLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const href = link.getAttribute('href');
+            if (href && href !== '#') {
                 switchView('home');
             }
         });
@@ -406,7 +408,7 @@ function renderServices(append = false) {
                     <span><i class="fa-solid fa-star"></i> ${service.rating}</span>
                     <span><i class="fa-solid fa-location-dot"></i> ${service.location}</span>
                 </div>
-                <div class="card-price">${service.priceRange}</div>
+                <div class="card-price">₹ ${service.priceRange}</div>
                 <div class="card-actions">
                     <button class="btn btn-primary" onclick="bookService('${service.id}')">Book Now</button>
                     <button class="btn btn-outline" onclick="openModal('${service.id}')">Know More</button>
@@ -444,7 +446,7 @@ function openModal(id) {
                 <span><i class="fa-solid fa-location-dot"></i> ${service.location}</span>
             </div>
             <p class="modal-desc">${service.moreInfo || service.description || 'No detailed description available.'}</p>
-            <div class="modal-price">${service.priceRange}</div>
+            <div class="modal-price">₹ ${service.priceRange}</div>
             <button class="primary-btn" style="width:100%" onclick="bookService('${id}')">Book Now via WhatsApp</button>
         </div>
     `;
