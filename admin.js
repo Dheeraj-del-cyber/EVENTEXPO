@@ -47,7 +47,7 @@ function renderList() {
         card.className = 'admin-service-card';
         card.innerHTML = `
             <div class="card-left">
-                <img src="${service.image || 'assets/placeholder-person.jpg'}" alt="Provider">
+                <img src="${service.image || 'https://via.placeholder.com/200x200?text=No+Photo'}" alt="Provider">
             </div>
             <div class="card-mid">
                 <h3>${service.name}</h3>
@@ -103,10 +103,9 @@ function setupAdminListeners() {
             image: document.getElementById('image').value
         };
 
-        if (!serviceData.image) {
-            alert('Please upload a photo for the service provider.');
-            return;
-        }
+        // Image is no longer mandatory, but we can set a default if needed
+        // serviceData.image will be an empty string if not provided
+
 
         if (isEditing && currentEditId) {
             await updateServiceAPI(currentEditId, serviceData);
