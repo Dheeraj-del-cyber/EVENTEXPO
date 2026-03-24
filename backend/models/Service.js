@@ -9,7 +9,7 @@ const serviceSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['Celebrities', 'Sound & Lighting', 'Catering', 'Event Hosts', 'Decorations']
+        enum: ['Celebrities', 'Sound & Lighting', 'Catering', 'Event Hosts', 'Decorations', 'DJ', 'Singers']
     },
     priceRange: {
         type: String,
@@ -27,11 +27,15 @@ const serviceSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
+        required: false
     },
     description: {
         type: String,
         default: 'Premium event service provider ready to make your event unforgettable.'
+    },
+    moreInfo: {
+        type: String,
+        default: ''
     }
 }, {
     timestamps: true
