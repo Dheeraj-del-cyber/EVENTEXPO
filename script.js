@@ -63,7 +63,9 @@ const MOCK_DATA = [
 ];
 
 // Configuration
-const API_URL = 'https://eventexpo.onrender.com/api/services';
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? 'http://localhost:5000/api/services' 
+    : 'https://eventexpo.onrender.com/api/services';
 const ADMIN_PHONE = '918147131299'; // New WhatsApp number from user
 
 // State Manager
@@ -90,10 +92,21 @@ async function initApp() {
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error('API down');
         const data = await response.json();
-        state.allServices = data;
+        // If API returns zero items, try falling back to LocalStorage to show user's recent local work
+        if (data && data.length > 0) {
+            state.allServices = data;
+        } else {
+            console.log('API returned empty list, checking LocalStorage fallback.');
+            const localData = localStorage.getItem('eventExpoServices');
+            if (localData && JSON.parse(localData).length > 0) {
+                state.allServices = JSON.parse(localData);
+            } else {
+                state.allServices = MOCK_DATA;
+                localStorage.setItem('eventExpoServices', JSON.stringify(MOCK_DATA));
+            }
+        }
     } catch (error) {
-        console.warn('API not available, falling back to LocalStorage/Mock Data');
-        // Fallback to LocalStorage
+        console.warn('API fetch failed, falling back to LocalStorage:', error.message);
         const localData = localStorage.getItem('eventExpoServices');
         if (localData && JSON.parse(localData).length > 0) {
             state.allServices = JSON.parse(localData);
@@ -410,8 +423,8 @@ function renderServices(append = false) {
                 </div>
                 <div class="card-price">₹ ${service.priceRange}</div>
                 <div class="card-actions">
-                    <button class="btn btn-primary" onclick="bookService('${service.id}')">Book Now</button>
-                    <button class="btn btn-outline" onclick="openModal('${service.id}')">Know More</button>
+                    <button class="btn btn-primary" onclick="bookService('${service._id || service.id}')">Book Now</button>
+                    <button class="btn btn-outline" onclick="openModal('${service._id || service.id}')">Know More</button>
                 </div>
             </div>
         `;

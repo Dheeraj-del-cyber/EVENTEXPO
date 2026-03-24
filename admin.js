@@ -1,5 +1,7 @@
 // Admin Logic for EventExpo
-const API_URL = 'https://eventexpo.onrender.com/api/services';
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? 'http://localhost:5000/api/services' 
+    : 'https://eventexpo.onrender.com/api/services';
 let adminServices = [];
 let isEditing = false;
 let currentEditId = null;
@@ -161,6 +163,9 @@ window.deleteService = async function(id) {
         localStorage.setItem('eventExpoServices', JSON.stringify(adminServices));
     }
     
+    // Bridge sync: Ensure local storage reflects the deletion
+    localStorage.setItem('eventExpoServices', JSON.stringify(adminServices));
+    
     document.getElementById('serviceCount').innerText = `${adminServices.length} Providers Found`;
     renderList();
 }
@@ -176,8 +181,11 @@ async function addServiceAPI(serviceData) {
         
         const newService = await response.json();
         adminServices.unshift(newService);
+        // Bridge sync: Update localStorage with the latest server data for consistent offline access
+        localStorage.setItem('eventExpoServices', JSON.stringify(adminServices));
     } catch(error) {
         // Fallback LocalStorage Add
+        console.warn('POST failed, fallback to local only:', error.message);
         adminServices.unshift(serviceData);
         localStorage.setItem('eventExpoServices', JSON.stringify(adminServices));
     }
@@ -200,6 +208,9 @@ async function updateServiceAPI(id, serviceData) {
         const updatedService = await response.json();
         const index = adminServices.findIndex(s => s._id === id || s.id === id);
         if(index > -1) adminServices[index] = updatedService;
+        
+        // Bridge sync: local storage reflects the update
+        localStorage.setItem('eventExpoServices', JSON.stringify(adminServices));
     } catch(error) {
         // Fallback LocalStorage Update
         const index = adminServices.findIndex(s => s._id === id || s.id === id);
