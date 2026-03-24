@@ -195,7 +195,17 @@ function setupEventListeners() {
     // Back to Home Button
     const backBtn = document.getElementById('backToHomeBtn');
     if (backBtn) {
-        backBtn.addEventListener('click', () => switchView('home'));
+        backBtn.addEventListener('click', () => {
+            switchView('home');
+            // Smooth scroll to categories after switching view
+            setTimeout(() => {
+                const catSection = document.getElementById('categories');
+                if (catSection) {
+                    const offset = catSection.offsetTop - 100;
+                    window.scrollTo({ top: offset, behavior: 'smooth' });
+                }
+            }, 100);
+        });
     }
 
     window.addEventListener('scroll', () => {
